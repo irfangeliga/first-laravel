@@ -20,6 +20,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
         'is_admin',
@@ -30,10 +31,6 @@ class User extends Authenticatable
         return $this->hasMany(Post::class, 'penulis_id');
     }
 
-    public function Category(): HasMany
-    {
-        return $this->hasMany(Category::class, 'category_id');
-    }
     /**
      * The attributes that should be hidden for serialization.
      *

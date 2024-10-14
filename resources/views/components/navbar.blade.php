@@ -3,8 +3,7 @@
         <div class="flex h-16 items-center justify-between">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
-                    <img class="h-8 w-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                        alt="Your Company">
+                    <img class="h-8 w-8 bg-white rounded-md" src="/../assets/img/blog_logo.png" alt="a Company">
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
@@ -45,7 +44,8 @@
                             x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                             x-transition:leave="transition ease-in duration-75 transform"
                             x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-                            class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            :class="{ 'block': isOpen, 'hidden': !isOpen }"
+                            class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button"
                             tabindex="-1">
                             <!-- Active: "bg-gray-100", Not Active: "" -->
@@ -56,6 +56,15 @@
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem"
                                 tabindex="-1" id="user-menu-item-2">Sign out</a>
                         </div>
+                    </div>
+                    <div class="m-2">
+                        <x-form>
+                            <x-slot:action>/logout</x-slot:action>
+                            <button type="submit"
+                                class="py-1 px-5 rounded-lg font-light border border-slate-300 hover:border-red-500 text-white hover:text-white transition ease-in-out delay-100 hover:bg-red-500  hover:duration-500">
+                                Logout
+                            </button>
+                        </x-form>
                     </div>
                 </div>
             </div>
@@ -79,6 +88,7 @@
                     </svg>
                 </button>
             </div>
+
         </div>
     </div>
 

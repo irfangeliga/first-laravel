@@ -1,69 +1,45 @@
 <?php
 
-use App\Models\Post;
-use App\Models\User;
-use App\Models\Category;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
+use App\Http\Middleware\Administrator;
+use App\Http\Middleware\Authentification;
+use App\Http\Middleware\Guest;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/category/{id}', function (Category $id) {
-    $post = $id->load('Post');
-    return view('category', [
-        "title" => "category",
-        "name" => "category",
-        "category" =>  $post
-    ]);
+
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/login', 'login')->middleware(Guest::class)->name('login');
+    Route::get('/register', 'register');
+    Route::post('/register', 'signUp');
+    Route::post('/login', 'signIn');
+    Route::post('/logout', 'logOut');
 });
 
-Route::get('/writer/{id:username}', function (User $id) {
-    dd($id->category);
-    dd($id->post);
-    $data = array_merge($category, $post);
-    return view('writer', [
-        "title" => "writer",
-        "name" => "writer",
-        "penulis" =>  $id->paginate(6)->toArray()
-    ]);
+Route::middleware(Authentification::class)->group(function () {});
+Route::get('/blog-category/{id}', [PostController::class, 'category']);
+Route::get('/blog-writer/{id:username}', [PostController::class, 'penulis']);
+Route::get('/blog-artikel/{id}', [PostController::class, 'artikel']);
+
+Route::middleware(Administrator::class)->group(function () {
+    Route::get('/blog', [PostController::class, 'index']);
+    Route::get('/artikel-update/{id}', [PostController::class, 'edit']);
+    Route::post('/artikel-update', [PostController::class, 'update']);
+    Route::get('/artikel-delete/{id}', [PostController::class, 'destroy']);
+    Route::post('/blog-store', [PostController::class, 'store']);
+    Route::get('/dashboard', [PostController::class, 'dashboard']);
 });
 
-Route::get('/artikel/{id}', function (Post $id) {
-    return view('artikel', [
-        "title" => "artikel",
-        "name" => "artikel",
-        "post" =>  $id
-    ]);
-});
-
-Route::get('/blog', function () {
-    $data = [];
-    if (request('search')) {
-
-        $penulis = Post::penulisid()->latest()->paginate(6)->withQueryString();
-        if ($penulis->toArray()['data']) $data = $penulis;
-
-
-        if (empty($data)) {
-            $category = Post::categoryid()->latest()->paginate(6)->withQueryString();
-            if ($category->toArray()['data']) $data = $category;
-        }
-
-        if (empty($data)) {
-            dd("okok");
-
-            $artikel = Post::judul(request())->latest()->paginate(6)->withQueryString();
-            if ($artikel->toArray()['data']) $data = $artikel;
-        }
-    } else {
-        $data = Post::latest()->paginate(6);
-    };
-    return view("blog", [
-        "name" => "blog",
-        "title" => "blog",
-        "posts" =>  $data
-    ]);
-});
 
 Route::get('/{name}', function ($name) {
     return view($name, [
+        "name" => $name,
+        "title" => $name
+    ]);
+});
+
+Route::get('/admin/{name}', function ($name) {
+    return view("/admin/" . $name, [
         "name" => $name,
         "title" => $name
     ]);

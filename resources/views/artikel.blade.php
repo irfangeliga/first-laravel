@@ -7,12 +7,12 @@
             <div class="shadow-md border p-5 rounded-xl w-full  bg-white">
                 <h2 class="text-2xl font-semibold">{{ Str::apa($post->judul) }}</h2>
                 <div class="text-base text-gray-400">
-                    <a href="/writer/{{ $post->Penulis->username }}"
+                    <a href="/blog-writer/{{ $post->Penulis->username }}"
                         class="underline hover:text-sky-500 ">{{ Str::apa($post->Penulis->name) }}</a> |
-                    {{ $post->waktu }}
+                    {{ date('d F Y H:i:s', strtotime($post->waktu)) }}
                 </div>
                 <p class="my-5 font-light">
-                    {{ $post->sinopsis }}
+                    {{ strip_tags($post->sinopsis) }}
                 </p>
                 <a href="#" onclick="history.back()" class=" hover:text-sky-500 text-sm font-normal">&laquo;
                     Back</a>

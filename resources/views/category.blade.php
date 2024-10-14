@@ -1,5 +1,5 @@
 <x-layout>
-    <x-slot:nekat>{{ $category->name . ' ' . $title }}</x-slot:nekat>
+    <x-slot:nekat>{{ $title . ' Category' }}</x-slot:nekat>
     <section class="py-24 ">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex justify-center flex-wrap md:flex-wrap lg:flex-nowrap lg:flex-row lg:justify-between gap-8">
@@ -11,7 +11,7 @@
                                     <small class="p-2">{{ Str::apa($post->created_at->diffForHumans()) }}</small>
                                 </div>
                                 <div class="basis-1/2 grow h-10 text-end  text-[13px]">
-                                    <a href="/category/{{ $post->Category->id }}" class="hover:text-white ">
+                                    <a href="/blog-category/{{ $post->Category->id }}" class="hover:text-white ">
                                         <small
                                             class="p-2 bg-blue-200 transition-all duration-300 hover:bg-blue-900 rounded ">
                                             {{ Str::apa($post->Category->name) }}
@@ -20,16 +20,16 @@
                                 </div>
                             </div>
                             <div class="p-3">
-                                <a href="artikel/{{ $post->id }}" class="hover:text-blue-500">
+                                <a href="/blog-artikel/{{ $post->id }}" class="hover:text-blue-500">
                                     <div class="text-lg  font-medium leading-7 transition-all duration-300">
                                         {{ Str::apa($post->judul) }}</div><br>
                                     <div class=" leading-6 transition-all duration-300 mb-8 text-[14px]">
-                                        {{ Str::limit($post->sinopsis, 150) }}
+                                        {{ Str::limit(strip_tags($post->sinopsis), 150) }}
                                     </div>
                                 </a>
                             </div>
                             <div class="p-3 mt-auto text-[14px]">
-                                <a href="/writer/{{ $post->Penulis->username }}"
+                                <a href="/blog-writer/{{ $post->Penulis->username }}"
                                     class="hover:text-blue-500 font-semibold">
                                     <div class="flex gap-2">
                                         <div class="mt-1">

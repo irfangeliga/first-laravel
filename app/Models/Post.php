@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Post extends Model
 {
   use HasFactory;
-  protected $fillable = ["penulis_id", "category_id", "judul", "waktu", "sinopsis"];
-  protected $with = ['Category', 'Penulis'];
+  protected $fillable = ["penulis_id", "category_id", "judul", "waktu", "sinopsis", "image"];
+  protected $with = ['category', 'penulis'];
 
   public function Penulis(): BelongsTo
   {
@@ -22,6 +22,11 @@ class Post extends Model
   {
     return $this->belongsTo(Category::class);
   }
+
+  // public function getRouteKeyName()
+  // {
+  //   return 'id';
+  // }
 
   public function scopeJudul(Builder $query, $filter): void
   {

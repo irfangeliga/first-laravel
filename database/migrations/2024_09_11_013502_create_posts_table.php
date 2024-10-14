@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('judul');
             $table->dateTime('waktu', precision: 0);
             $table->text('sinopsis');
+            $table->text('image');
             $table->timestamps();
 
             $table->foreignId('penulis_id')->constrained(
